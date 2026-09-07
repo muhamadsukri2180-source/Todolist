@@ -80,6 +80,37 @@ class AuthTest extends TestCase
     }
 
     /** @test */
+    public function default_admin_account_is_automatically_ensured_by_controller()
+    {
+        // Database is fresh and has no users yet
+        $this->assertDatabaseMissing('users', ['username' => 'admin']);
+
+        // Visiting login page automatically initializes the admin account
+        $response = $this->get('/masuk');
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('users', [
+            'username' => 'admin',
+            'role' => 'admin',
+        ]);
+    }
+
+    /** @test */
+    public function user_cannot_register_with_admin_username()
+    {
+        $response = $this->post('/daftar', [
+            'name' => 'Calon Hacker',
+            'username' => 'admin',
+            'email' => 'fakeadmin@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertSessionHasErrors('username');
+        $this->assertGuest();
+    }
+
+    /** @test */
     public function guest_can_view_login_page()
     {
         $response = $this->get('/masuk');

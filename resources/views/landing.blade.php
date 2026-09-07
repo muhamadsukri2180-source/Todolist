@@ -95,7 +95,6 @@
                         <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
                         <span class="text-xs font-bold text-slate-500 ml-2">Pratinjau Antarmuka TaskFlow</span>
                     </div>
-                    <span class="text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg">Real-Time</span>
                 </div>
 
                 <div class="space-y-3">

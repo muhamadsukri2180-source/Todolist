@@ -177,6 +177,17 @@
                 </div>
             </form>
 
+            <!-- Keterangan Akun Bawaan Administrator -->
+            <div class="mt-6 p-3.5 rounded-2xl bg-amber-50/90 border border-amber-200 text-xs text-amber-950 flex items-start space-x-2.5 shadow-xs">
+                <i class="fa-solid fa-shield-halved text-amber-600 text-sm mt-0.5 shrink-0"></i>
+                <div class="space-y-0.5">
+                    <p class="font-bold text-amber-900">Akun Administrator Bawaan Sistem:</p>
+                    <p class="text-amber-800 text-[11px] leading-relaxed">
+                        Akun Administrator sudah tersedia secara otomatis dari sistem (username: <code class="font-bold text-amber-950 bg-white px-1 py-0.5 rounded border border-amber-200">admin</code>) dan tidak perlu mendaftar. Halaman ini khusus pendaftaran akun pengguna baru.
+                    </p>
+                </div>
+            </div>
+
             <div class="mt-6 border-t border-slate-100 pt-4 text-center">
                 <a href="{{ route('landing') }}" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition flex items-center justify-center space-x-1.5 group">
                     <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>

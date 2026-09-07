@@ -11,10 +11,28 @@ use Illuminate\Support\Str;
 class AuthController extends Controller
 {
     /**
+     * Memastikan akun administrator bawaan selalu tersedia tanpa perlu registrasi manual.
+     */
+    private function ensureDefaultAdminExists(): void
+    {
+        User::firstOrCreate(
+            ['username' => 'admin'],
+            [
+                'name' => 'Administrator TaskFlow',
+                'email' => 'admin@taskflow.id',
+                'password' => Hash::make('password123'),
+                'role' => 'admin',
+            ]
+        );
+    }
+
+    /**
      * Menampilkan halaman pendaftaran akun baru.
      */
     public function showRegister()
     {
+        $this->ensureDefaultAdminExists();
+
         if (Auth::check()) {
             return redirect()->route('todos.index');
         }
@@ -27,14 +45,17 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        $this->ensureDefaultAdminExists();
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'nullable|string|max:50|alpha_dash|unique:users,username',
+            'username' => 'nullable|string|max:50|alpha_dash|unique:users,username|not_in:admin,administrator',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
         ], [
             'name.required' => 'Nama lengkap wajib diisi.',
             'username.unique' => 'Username ini sudah digunakan, silakan pilih yang lain.',
+            'username.not_in' => 'Username "admin" adalah akun bawaan sistem dan tidak dapat didaftarkan kembali.',
             'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, tanda strip, dan garis bawah.',
             'email.required' => 'Alamat email wajib diisi.',
             'email.email' => 'Format alamat email tidak valid.',
@@ -50,7 +71,7 @@ class AuthController extends Controller
             $baseUsername = Str::slug(explode('@', $validated['email'])[0], '');
             $username = $baseUsername;
             $counter = 1;
-            while (User::where('username', $username)->exists()) {
+            while (User::where('username', $username)->exists() || in_array(strtolower($username), ['admin', 'administrator'])) {
                 $username = $baseUsername . $counter;
                 $counter++;
             }
@@ -74,6 +95,8 @@ class AuthController extends Controller
      */
     public function showLogin()
     {
+        $this->ensureDefaultAdminExists();
+
         if (Auth::check()) {
             return redirect()->route('todos.index');
         }
@@ -86,6 +109,7 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        $this->ensureDefaultAdminExists();
         $credentials = $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
