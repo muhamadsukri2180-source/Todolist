@@ -1,69 +1,95 @@
-# Aplikasi TODO List (Mini Application)
+# TaskFlow — Personal Productivity (Sistem Produktivitas Pribadi)
 
-Aplikasi **TODO List** (Full-Stack Web Application) dibangun menggunakan framework **Laravel** untuk backend dan **Blade + Tailwind CSS** untuk frontend, terintegrasi penuh dengan database **MySQL / SQLite**.
+Aplikasi **TaskFlow — Personal Productivity** adalah aplikasi web manajemen produktivitas terpadu (*full-stack*) yang dibangun menggunakan kerangka kerja **Laravel** untuk backend dan **Blade + Tailwind CSS** untuk antarmuka pengguna (frontend), terintegrasi penuh dengan basis data **MySQL / MariaDB / SQLite**.
+
+Seluruh teks antarmuka, notifikasi, pesan validasi formulir, dan navigasi disajikan **100% dalam Bahasa Indonesia**.
 
 ---
 
-## 🚀 Fitur Utama
+## 🚀 Fitur-Fitur Utama
 
-1. **Tambah Todo Baru (Create)**:
-   - Input judul tugas dan deskripsi opsional.
-   - Pilihan **Tingkat Prioritas** dengan tombol bundaran visual:
-     - 🔵 **Rendah (Low)**
-     - 🟡 **Sedang (Medium)**
-     - 🔴 **Tinggi (High)**
-   - Input **Deadline / Tenggat Waktu** tugas (`due_date`).
+### 1. 🌐 Halaman Beranda (Landing Page)
+- Tampilan landing page modern dan responsif dengan tema profesional **TaskFlow — Personal Productivity**.
+- Menampilkan nilai manfaat, rincian fitur utama, statistik visual, dan tautan langsung untuk mendaftar atau masuk ke akun.
 
-2. **Manajemen Status & Filter (Read & Filter)**:
-   - Tab filter status: **Semua**, **Belum Selesai (Pending)**, dan **Selesai (Completed)**.
-   - Indikator badge tanggal tenggat: *Terlewat* (merah), *Deadline Hari Ini* (amber), dan *Mendatang* (indigo).
+### 2. 🔐 Sistem Autentikasi (Daftar & Masuk)
+- **Halaman Pendaftaran Akun (`/daftar`)**:
+  - Mendaftar dengan **Nama Lengkap**, **Username** (opsional/otomatis dibuatkan jika dikosongkan), **Alamat Email**, dan **Kata Sandi**.
+- **Halaman Masuk (`/masuk`)**:
+  - Otentikasi aman menggunakan **Username** dan **Kata Sandi**.
+- **Keluar Sistem (`/keluar`)**:
+  - Mengakhiri sesi pengguna dengan aman dan kembali ke halaman utama.
 
-3. **Pencarian Real-Time (Search)**:
-   - Bar pencarian tugas berdasarkan judul dan deskripsi.
-   - Dapat dikombinasikan secara langsung dengan tab filter status.
+### 3. 🛡️ Panel Administrator Khusus Baca / Read-Only (`/admin/pengguna`)
+- Hak akses dilindungi oleh middleware `admin` (pengguna biasa dilarang mengakses / 403 Forbidden).
+- **Hanya Bisa Melihat (Read-Only)**:
+  - Melihat seluruh daftar pengguna terdaftar lengkap dengan avatar inisial, nama, username, email, peran, total tugas yang dimiliki, dan tanggal bergabung.
+  - Ringkasan statistik (Total Pengguna, Total Admin, Total Pengguna Biasa, dan Total Seluruh Tugas).
+  - Fitur pencarian pengguna berdasarkan nama, username, atau email.
+  - **Bebas dari manipulasi data**: Tidak tersedia tombol tambah, edit, atau hapus data pengguna untuk menjamin keamanan read-only.
 
-4. **Progress Bar Penyelesaian**:
-   - Indicator bar visual persentase penyelesaian tugas (% Selesai) secara real-time.
+### 4. 📝 Dasbor Tugas Pribadi (`/tugas`)
+- **Isolasi Tugas**: Setiap pengguna hanya dapat melihat dan mengelola tugas miliknya sendiri.
+- **Tambah Tugas Baru**:
+  - Judul tugas dan rincian catatan/deskripsi (opsional).
+  - **Tingkat Prioritas Visual** dengan pemilih bundaran:
+    - 🔵 **Rendah**
+    - 🟡 **Sedang** (bawaan)
+    - 🔴 **Tinggi**
+  - **Tenggat Waktu**: Pemilih tanggal dengan penanda tenggat waktu terlewat (merah), tenggat hari ini (kuning), dan mendatang (biru).
+- **Pengurutan Berdasarkan Tenggat Waktu**:
+  - ⏳ **Waktu Terdekat**: Menempatkan tugas dengan tenggat terdekat di posisi paling atas.
+  - 📅 **Waktu Terjauh**: Menempatkan tugas dengan tenggat terjauh di posisi paling atas.
+  - ⏱️ **Terbaru**: Menampilkan tugas berdasarkan urutan waktu penambahan terbaru.
+- **Pencarian Cerdas**: Mencari tugas secara instan berdasarkan judul atau deskripsi.
+- **Penyaring Status**: Tab penyaring **Semua**, **Belum Selesai**, dan **Selesai**.
+- **Paginasi 10 Tugas Per Halaman**: Menampilkan maksimal 10 tugas per halaman dengan navigasi halaman bernomor.
+- **Bilah Kemajuan Otomatis**: Menghitung persentase penyelesaian tugas (% Selesai) secara waktu nyata.
+- **Ubah & Tandai Selesai**: Centang status tugas instan atau ubah rincian melalui jendela dialog interaktif.
+- **Hapus Tugas**: Menghapus tugas dengan dialog konfirmasi.
 
-5. **Update & Edit Todo (Update)**:
-   - Tombol toggle cepat untuk mengubah status selesai/belum selesai dengan efek strikethrough.
-   - Modal dialog edit untuk memperbarui judul, deskripsi, prioritas, deadline, dan status.
+---
 
-6. **Hapus Todo (Delete)**:
-   - Hapus tugas dari database secara permanen dengan dialog konfirmasi.
+## 👥 Akun Bawaan untuk Pengujian Langsung
+
+Aplikasi telah dilengkapi seeder data akun awal:
+
+| Peran | Username | Kata Sandi | Hak Akses |
+|---|---|---|---|
+| **Administrator** | `admin` | `password123` | Mengelola tugas pribadi & melihat seluruh pengguna di `/admin/pengguna` (Read-Only) |
+| **Pengguna Biasa** | `sukri` | `password123` | Mengelola tugas pribadi di `/tugas` |
 
 ---
 
 ## 🛠️ Prasyarat Sistem
 
-- **PHP**: `>= 8.1`
-- **Composer**: `>= 2.0`
-- **Database**: MySQL (Laragon / XAMPP) atau SQLite
-- **Web Server**: Laragon / Apache / Nginx / Artisan Serve
+- **PHP**: Versi 8.1 atau yang lebih baru
+- **Composer**: Versi 2.0 atau yang lebih baru
+- **Basis Data**: MySQL (Laragon / XAMPP) atau SQLite
+- **Web Server**: Laragon / Apache / Nginx / PHP Built-in Server
 
 ---
 
-## 💻 Langkah-Langkah Setup & Menjalankan Project
+## 💻 Panduan Instalasi & Menjalankan Aplikasi
 
-### 1. Ekstrak / Clone Repository
-Buka terminal / PowerShell di direktori project:
+### 1. Masuk ke Direktori Proyek
+Buka terminal PowerShell atau Command Prompt pada komputer Anda:
 ```bash
 cd c:\laragon\www\Todolist
 ```
 
-### 2. Install Dependensi PHP
-Jalankan Composer install untuk mengunduh seluruh vendor dependensi Laravel:
+### 2. Pasang Dependensi Composer
 ```bash
 composer install
 ```
 
-### 3. Konfigurasi Environment (`.env`)
-Salin file `.env.example` ke `.env` (jika belum ada):
+### 3. Konfigurasi Lingkungan (`.env`)
+Salin berkas contoh konfigurasi lingkungan:
 ```bash
-cp .env.example .env
+copy .env.example .env
 ```
 
-Pastikan konfigurasi database pada `.env` sudah sesuai dengan environment Anda (misalnya MySQL Laragon):
+Sesuaikan baris konfigurasi basis data di dalam berkas `.env` (misal MySQL Laragon):
 ```ini
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -73,32 +99,36 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-### 4. Generate Application Key
-Jalankan perintah generate key Laravel:
+### 4. Buat Kunci Aplikasi
 ```bash
 php artisan key:generate
 ```
 
-### 5. Jalankan Migrasi Database
-Buat tabel `todos` beserta kolom prioritas & due date ke dalam database:
+### 5. Jalankan Migrasi & Pengisian Data Awal (Seeder)
+Jalankan migrasi tabel sekaligus mengisi akun awal pengujian:
 ```bash
 php artisan migrate
+php artisan db:seed --class=AdminSeeder
 ```
 
-### 6. Menjalankan Server Aplikasi
-Jalankan development server Laravel:
+### 6. Jalankan Server Aplikasi
+Jalankan server pengembangan lokal:
 ```bash
 php artisan serve
 ```
 
-Akses aplikasi melalui browser di:
-`http://127.0.0.1:8000` atau `http://todolist.test` (jika menggunakan Laragon).
+Aplikasi dapat langsung diakses melalui peramban:
+- **Halaman Beranda**: `http://127.0.0.1:8000` atau `http://todolist.test`
+- **Halaman Masuk**: `http://127.0.0.1:8000/masuk`
+- **Halaman Daftar**: `http://127.0.0.1:8000/daftar`
+- **Dasbor Tugas**: `http://127.0.0.1:8000/tugas`
+- **Panel Admin**: `http://127.0.0.1:8000/admin/pengguna`
 
 ---
 
-## 🧪 Pengujian Otomatis (Testing)
+## 🧪 Pengujian Otomatis (Unit & Fitur)
 
-Proyek ini dilengkapi dengan Automated Feature Tests menggunakan PHPUnit. Untuk menjalankan seluruh pengujian:
+Aplikasi telah divalidasi dengan rangkaian uji otomatis lengkap menggunakan PHPUnit:
 
 ```bash
 php artisan test
@@ -106,21 +136,50 @@ php artisan test
 
 **Hasil Pengujian:**
 ```text
+   PASS  Tests\Unit\ExampleTest
+  ✓ that true is true
+
+   PASS  Tests\Feature\AdminTest
+  ✓ guest cannot access admin user list
+  ✓ regular user is forbidden from admin user list
+  ✓ admin can view registered users list
+  ✓ admin can search registered users
+
+   PASS  Tests\Feature\AuthTest
+  ✓ guest can view registration page
+  ✓ guest can register new account
+  ✓ registration auto generates clean username if not provided
+  ✓ registration fails with duplicate email
+  ✓ guest can view login page
+  ✓ user can login using username and password
+  ✓ login fails with invalid credentials
+  ✓ authenticated user can logout
+
+   PASS  Tests\Feature\ExampleTest
+  ✓ the application returns a successful response
+
    PASS  Tests\Feature\TodoTest
-  ✓ it can display the todo list page
+  ✓ it displays the landing page at root
+  ✓ guest cannot access todos page
+  ✓ authenticated user can display todos page
   ✓ user can create a new todo with priority and due date
   ✓ user can search todos by keyword
+  ✓ user can sort todos by deadline
+  ✓ it paginates todos 10 per page
   ✓ user can mark todo as completed
   ✓ user can delete a todo
   ✓ it calculates correct progress percentage
+  ✓ user cannot see or modify another users todo
 
-  Tests:    6 passed (13 assertions)
+  Tests:    25 passed (77 assertions)
 ```
 
 ---
 
-## 📧 Informasi Penyelesaian Project
+## 📧 Informasi Penyelesaian Proyek
 
-Project ini telah selesai dikembangkan dan diverifikasi sepenuhnya.
-- **Penerima Notifikasi Email**: `anggidputra567@gmail.com`
-- **Status Project**: Complete & Ready for Production/Deployment
+Proyek telah selesai dikembangkan, diuji, dan memenuhi seluruh kriteria yang diminta:
+- **Surel / Email Pemberitahuan**: `anggidputra567@gmail.com`
+- **Status Pengembangan**: 100% Selesai & Berfungsi Penuh
+- **Bahasa Antarmuka**: 100% Bahasa Indonesia
+- **Tema Proyek**: TaskFlow — Personal Productivity

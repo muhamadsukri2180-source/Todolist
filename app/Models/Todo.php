@@ -10,6 +10,7 @@ class Todo extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'title',
         'description',
         'priority',
@@ -21,4 +22,12 @@ class Todo extends Model
         'is_completed' => 'boolean',
         'due_date' => 'date',
     ];
+
+    /**
+     * Relasi ke pemilik tugas.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

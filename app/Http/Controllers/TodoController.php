@@ -12,10 +12,12 @@ class TodoController extends Controller
      */
     public function index(Request $request)
     {
+        $userId = auth()->id();
         $filter = $request->query('filter', 'all');
         $search = $request->query('search');
+        $sort = $request->query('sort', 'latest');
 
-        $query = Todo::query();
+        $query = Todo::where('user_id', $userId);
 
         if ($filter === 'active') {
             $query->where('is_completed', false);
@@ -30,17 +32,26 @@ class TodoController extends Controller
             });
         }
 
-        $todos = $query->latest()->get();
+        if ($sort === 'deadline_asc') {
+            $query->orderByRaw('due_date IS NULL, due_date ASC')->latest();
+        } elseif ($sort === 'deadline_desc') {
+            $query->orderByRaw('due_date IS NULL, due_date DESC')->latest();
+        } else {
+            $query->latest();
+        }
 
-        $totalCount = Todo::count();
-        $activeCount = Todo::where('is_completed', false)->count();
-        $completedCount = Todo::where('is_completed', true)->count();
+        $todos = $query->paginate(10)->withQueryString();
+
+        $totalCount = Todo::where('user_id', $userId)->count();
+        $activeCount = Todo::where('user_id', $userId)->where('is_completed', false)->count();
+        $completedCount = Todo::where('user_id', $userId)->where('is_completed', true)->count();
         $progressPercentage = $totalCount > 0 ? (int) round(($completedCount / $totalCount) * 100) : 0;
 
         return view('todos.index', compact(
             'todos',
             'filter',
             'search',
+            'sort',
             'totalCount',
             'activeCount',
             'completedCount',
@@ -61,6 +72,7 @@ class TodoController extends Controller
         ]);
 
         Todo::create([
+            'user_id' => auth()->id(),
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
             'priority' => $validated['priority'] ?? 'medium',
@@ -68,7 +80,7 @@ class TodoController extends Controller
             'is_completed' => false,
         ]);
 
-        return redirect()->back()->with('success', 'Todo berhasil ditambahkan.');
+        return redirect()->route('todos.index')->with('success', 'Tugas berhasil ditambahkan.');
     }
 
     /**
@@ -76,12 +88,16 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
+        if ($todo->user_id && $todo->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
+            abort(403, 'Anda tidak memiliki hak untuk mengubah tugas ini.');
+        }
+
         if ($request->has('toggle_status')) {
             $todo->update([
                 'is_completed' => !$todo->is_completed,
             ]);
             $statusText = $todo->is_completed ? 'selesai' : 'belum selesai';
-            return redirect()->back()->with('success', "Status todo \"{$todo->title}\" diubah menjadi {$statusText}.");
+            return redirect()->route('todos.index')->with('success', "Status tugas \"{$todo->title}\" diubah menjadi {$statusText}.");
         }
 
         $validated = $request->validate([
@@ -100,7 +116,7 @@ class TodoController extends Controller
             'is_completed' => $request->has('is_completed') ? (bool) $request->is_completed : $todo->is_completed,
         ]);
 
-        return redirect()->back()->with('success', 'Todo berhasil diperbarui.');
+        return redirect()->route('todos.index')->with('success', 'Tugas berhasil diperbarui.');
     }
 
     /**
@@ -108,9 +124,13 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
+        if ($todo->user_id && $todo->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
+            abort(403, 'Anda tidak memiliki hak untuk menghapus tugas ini.');
+        }
+
         $title = $todo->title;
         $todo->delete();
 
-        return redirect()->back()->with('success', "Todo \"{$title}\" berhasil dihapus.");
+        return redirect()->route('todos.index')->with('success', "Tugas \"{$title}\" berhasil dihapus.");
     }
 }
