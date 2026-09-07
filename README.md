@@ -1,70 +1,126 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Aplikasi TODO List (Mini Application)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi **TODO List** (Full-Stack Web Application) dibangun menggunakan framework **Laravel** untuk backend dan **Blade + Tailwind CSS** untuk frontend, terintegrasi penuh dengan database **MySQL / SQLite**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. **Tambah Todo Baru (Create)**:
+   - Input judul tugas dan deskripsi opsional.
+   - Pilihan **Tingkat Prioritas** dengan tombol bundaran visual:
+     - 🔵 **Rendah (Low)**
+     - 🟡 **Sedang (Medium)**
+     - 🔴 **Tinggi (High)**
+   - Input **Deadline / Tenggat Waktu** tugas (`due_date`).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. **Manajemen Status & Filter (Read & Filter)**:
+   - Tab filter status: **Semua**, **Belum Selesai (Pending)**, dan **Selesai (Completed)**.
+   - Indikator badge tanggal tenggat: *Terlewat* (merah), *Deadline Hari Ini* (amber), dan *Mendatang* (indigo).
 
-## Learning Laravel
+3. **Pencarian Real-Time (Search)**:
+   - Bar pencarian tugas berdasarkan judul dan deskripsi.
+   - Dapat dikombinasikan secara langsung dengan tab filter status.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+4. **Progress Bar Penyelesaian**:
+   - Indicator bar visual persentase penyelesaian tugas (% Selesai) secara real-time.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+5. **Update & Edit Todo (Update)**:
+   - Tombol toggle cepat untuk mengubah status selesai/belum selesai dengan efek strikethrough.
+   - Modal dialog edit untuk memperbarui judul, deskripsi, prioritas, deadline, dan status.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+6. **Hapus Todo (Delete)**:
+   - Hapus tugas dari database secara permanen dengan dialog konfirmasi.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🛠️ Prasyarat Sistem
 
-### Premium Partners
+- **PHP**: `>= 8.1`
+- **Composer**: `>= 2.0`
+- **Database**: MySQL (Laragon / XAMPP) atau SQLite
+- **Web Server**: Laragon / Apache / Nginx / Artisan Serve
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## 💻 Langkah-Langkah Setup & Menjalankan Project
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Ekstrak / Clone Repository
+Buka terminal / PowerShell di direktori project:
+```bash
+cd c:\laragon\www\Todolist
+```
 
-## Code of Conduct
+### 2. Install Dependensi PHP
+Jalankan Composer install untuk mengunduh seluruh vendor dependensi Laravel:
+```bash
+composer install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Konfigurasi Environment (`.env`)
+Salin file `.env.example` ke `.env` (jika belum ada):
+```bash
+cp .env.example .env
+```
 
-## Security Vulnerabilities
+Pastikan konfigurasi database pada `.env` sudah sesuai dengan environment Anda (misalnya MySQL Laragon):
+```ini
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=todolist
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 4. Generate Application Key
+Jalankan perintah generate key Laravel:
+```bash
+php artisan key:generate
+```
 
-## License
+### 5. Jalankan Migrasi Database
+Buat tabel `todos` beserta kolom prioritas & due date ke dalam database:
+```bash
+php artisan migrate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-=======
-# Todolist
-Aplikasi Todolist
->>>>>>> f40715ed189c34587065a45c555b2dbf461d7071
+### 6. Menjalankan Server Aplikasi
+Jalankan development server Laravel:
+```bash
+php artisan serve
+```
+
+Akses aplikasi melalui browser di:
+`http://127.0.0.1:8000` atau `http://todolist.test` (jika menggunakan Laragon).
+
+---
+
+## 🧪 Pengujian Otomatis (Testing)
+
+Proyek ini dilengkapi dengan Automated Feature Tests menggunakan PHPUnit. Untuk menjalankan seluruh pengujian:
+
+```bash
+php artisan test
+```
+
+**Hasil Pengujian:**
+```text
+   PASS  Tests\Feature\TodoTest
+  ✓ it can display the todo list page
+  ✓ user can create a new todo with priority and due date
+  ✓ user can search todos by keyword
+  ✓ user can mark todo as completed
+  ✓ user can delete a todo
+  ✓ it calculates correct progress percentage
+
+  Tests:    6 passed (13 assertions)
+```
+
+---
+
+## 📧 Informasi Penyelesaian Project
+
+Project ini telah selesai dikembangkan dan diverifikasi sepenuhnya.
+- **Penerima Notifikasi Email**: `anggidputra567@gmail.com`
+- **Status Project**: Complete & Ready for Production/Deployment

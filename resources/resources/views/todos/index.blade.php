@@ -29,6 +29,12 @@
                         <h1 class="text-2xl font-bold tracking-tight">TODO List App</h1>
                         <p class="text-indigo-200 text-sm">Kelola tugas harian Anda, prioritas, & tenggat waktu</p>
                     </div>
+                </div>
+                <div class="hidden sm:block text-right">
+                    <span class="text-xs font-semibold px-3 py-1 bg-white/20 rounded-full backdrop-blur-sm text-indigo-100">
+                        Laravel & Modern UI
+                    </span>
+                </div>
             </div>
         </div>
     </header>
@@ -52,7 +58,7 @@
         @if ($errors->any())
             <div class="mb-6 bg-rose-50 border-l-4 border-rose-500 text-rose-800 p-4 rounded-r-xl shadow-md">
                 <div class="flex items-center space-x-3 mb-1">
-                    <i class="fa-solid fa-circle-info text-rose-500 text-xl"></i>
+                    <i class="fa-solid fa-triangle-exclamation text-rose-500 text-xl"></i>
                     <p class="font-bold text-sm">Terjadi Kesalahan Form:</p>
                 </div>
                 <ul class="list-disc list-inside text-sm pl-5 text-rose-700">
@@ -78,14 +84,14 @@
             <!-- Progress Bar Outer -->
             <div class="w-full bg-slate-100 rounded-full h-3.5 p-0.5 overflow-hidden border border-slate-200">
                 <div class="bg-gradient-to-r from-indigo-500 via-indigo-600 to-emerald-500 h-full rounded-full transition-all duration-500 ease-out shadow-sm"
-                    style="width: {{ $progressPercentage }}%"></div>
+                     style="width: {{ $progressPercentage }}%"></div>
             </div>
 
             <div class="flex justify-between items-center text-xs text-slate-500 mt-2">
                 <span>{{ $completedCount }} dari {{ $totalCount }} tugas telah diselesaikan</span>
                 @if($progressPercentage === 100 && $totalCount > 0)
                     <span class="text-emerald-600 font-semibold flex items-center gap-1">
-                        <i class="fa-solid fa-trophy text-amber-500"></i> Semua Tugas Selesai
+                        <i class="fa-solid fa-trophy text-amber-500"></i> Semua Tugas Selesai!
                     </span>
                 @endif
             </div>
@@ -137,13 +143,13 @@
                     <div>
                         <label for="title" class="block text-sm font-semibold text-slate-700 mb-1">Judul Todo <span class="text-rose-500">*</span></label>
                         <input type="text" name="title" id="title" required placeholder="Contoh: Menyelesaikan laporan mingguan"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none">
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none">
                     </div>
 
                     <div>
                         <label for="due_date" class="block text-sm font-semibold text-slate-700 mb-1">Deadline / Tenggat Waktu <span class="text-slate-400 font-normal">(Opsional)</span></label>
                         <input type="date" name="due_date" id="due_date"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none bg-white">
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none bg-white">
                     </div>
                 </div>
 
@@ -183,7 +189,7 @@
                 <div>
                     <label for="description" class="block text-sm font-semibold text-slate-700 mb-1">Deskripsi <span class="text-slate-400 font-normal">(Opsional)</span></label>
                     <textarea name="description" id="description" rows="2" placeholder="Tambahkan rincian atau catatan..."
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none"></textarea>
+                              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none"></textarea>
                 </div>
 
                 <div class="flex justify-end">
@@ -210,11 +216,11 @@
                             <i class="fa-solid fa-magnifying-glass text-sm"></i>
                         </span>
                         <input type="text" name="search" value="{{ $search }}" placeholder="Cari todo berdasarkan judul/deskripsi..."
-                            class="w-full pl-10 pr-10 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-xs sm:text-sm transition outline-none">
+                               class="w-full pl-10 pr-10 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-xs sm:text-sm transition outline-none">
                         @if(!empty($search))
                             <a href="{{ route('todos.index', ['filter' => $filter]) }}"
-                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600"
-                            title="Bersihkan Pencarian">
+                               class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600"
+                               title="Bersihkan Pencarian">
                                 <i class="fa-solid fa-circle-xmark"></i>
                             </a>
                         @endif
@@ -224,15 +230,15 @@
                 <!-- Status Filter Tabs -->
                 <div class="flex items-center space-x-1 bg-slate-200/70 p-1 rounded-xl text-xs font-semibold self-start md:self-auto">
                     <a href="{{ route('todos.index', array_merge(request()->query(), ['filter' => 'all'])) }}"
-                    class="px-3 py-1.5 rounded-lg transition {{ $filter === 'all' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900' }}">
+                       class="px-3 py-1.5 rounded-lg transition {{ $filter === 'all' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900' }}">
                         Semua ({{ $totalCount }})
                     </a>
                     <a href="{{ route('todos.index', array_merge(request()->query(), ['filter' => 'active'])) }}"
-                    class="px-3 py-1.5 rounded-lg transition {{ $filter === 'active' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900' }}">
+                       class="px-3 py-1.5 rounded-lg transition {{ $filter === 'active' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900' }}">
                         Belum Selesai ({{ $activeCount }})
                     </a>
                     <a href="{{ route('todos.index', array_merge(request()->query(), ['filter' => 'completed'])) }}"
-                    class="px-3 py-1.5 rounded-lg transition {{ $filter === 'completed' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900' }}">
+                       class="px-3 py-1.5 rounded-lg transition {{ $filter === 'completed' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900' }}">
                         Selesai ({{ $completedCount }})
                     </a>
                 </div>
@@ -304,7 +310,7 @@
                                         @endphp
                                         @if($isOverdue)
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300 shadow-sm">
-                                                <i class="fa-solid fa-clock text-[10px] mr-1 text-rose-600"></i> Terlewat: {{ $todo->due_date->format('d M Y') }}
+                                                <i class="fa-solid fa-triangle-exclamation text-[10px] mr-1 text-rose-600"></i> Terlewat: {{ $todo->due_date->format('d M Y') }}
                                             </span>
                                         @elseif($isToday)
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
@@ -403,13 +409,13 @@
                 <div>
                     <label for="edit_title" class="block text-sm font-semibold text-slate-700 mb-1">Judul Todo <span class="text-rose-500">*</span></label>
                     <input type="text" name="title" id="edit_title" required
-                        class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none">
+                           class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none">
                 </div>
 
                 <div>
                     <label for="edit_due_date" class="block text-sm font-semibold text-slate-700 mb-1">Deadline / Tenggat Waktu</label>
                     <input type="date" name="due_date" id="edit_due_date"
-                        class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none bg-white">
+                           class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none bg-white">
                 </div>
 
                 <!-- Circular Priority Selector for Edit Modal -->
@@ -448,7 +454,7 @@
                 <div>
                     <label for="edit_description" class="block text-sm font-semibold text-slate-700 mb-1">Deskripsi</label>
                     <textarea name="description" id="edit_description" rows="3"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none"></textarea>
+                              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition outline-none"></textarea>
                 </div>
 
                 <div class="flex items-center space-x-2">
