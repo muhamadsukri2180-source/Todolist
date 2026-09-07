@@ -40,52 +40,96 @@ Aplikasi web manajemen tugas dan produktivitas pribadi (*full-stack*) berbasis *
 
 ---
 
-## 💻 Cara Pemasangan & Menjalankan Aplikasi
+## 💻 Panduan Lengkap Pemasangan & Menjalankan Aplikasi
 
-Ikuti langkah-langkah ringkas berikut di terminal komputer Anda:
+Ikuti panduan langkah demi langkah di bawah ini untuk memasang dan menjalankan aplikasi di komputer lokal Anda:
 
-### 1. Masuk ke Folder Proyek
+### Langkah 1: Buka Terminal dan Masuk ke Direktori Proyek
+Buka Command Prompt (CMD), PowerShell, atau terminal Laragon, lalu jalankan:
 ```bash
 cd c:\laragon\www\Todolist
 ```
 
-### 2. Pasang Dependensi
+---
+
+### Langkah 2: Pasang Paket Dependensi PHP (Composer)
+Unduh dan pasang pustaka yang dibutuhkan Laravel dengan perintah:
 ```bash
 composer install
 ```
+*(Tunggu hingga proses pengunduhan dependensi selesai).*
 
-### 3. Konfigurasi Lingkungan (`.env`)
-Salin file `.env.example` menjadi `.env`:
-```bash
-copy .env.example .env
-```
-Pastikan pengaturan database di file `.env` sudah sesuai (misal Laragon):
-```ini
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=todolist
-DB_USERNAME=root
-DB_PASSWORD=
-```
+---
 
-### 4. Buat Kunci Aplikasi
+### Langkah 3: Siapkan File Konfigurasi Lingkungan (`.env`)
+1. Gandakan file `.env.example` menjadi `.env`:
+   - **Windows (CMD/PowerShell)**:
+     ```bash
+     copy .env.example .env
+     ```
+   - **Git Bash / Linux**:
+     ```bash
+     cp .env.example .env
+     ```
+2. Buka file `.env` di text editor (seperti VS Code atau Notepad), lalu pastikan pengaturan basis data (database) sesuai dengan server lokal Anda (Laragon / XAMPP):
+   ```ini
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=todolist
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+   > **Catatan:** Secara default di Laragon atau XAMPP, `DB_USERNAME` adalah `root` dan `DB_PASSWORD` dikosongkan.
+
+---
+
+### Langkah 4: Buat Kunci Enkripsi Aplikasi (*App Key*)
+Jalankan perintah ini untuk membuat *Application Encryption Key*:
 ```bash
 php artisan key:generate
 ```
 
-### 5. Buat Database & Jalankan Migrasi
-Buat database baru bernama `todolist` di MySQL Anda, lalu jalankan:
-```bash
-php artisan migrate --seed
-```
+---
 
-### 6. Jalankan Server
-```bash
-php artisan serve
-```
+### Langkah 5: Buat Basis Data (Database) & Jalankan Migrasi
+1. Pastikan layanan **MySQL** di Laragon / XAMPP sudah berjalan (**Start All**).
+2. Buat database baru dengan nama `todolist`:
+   - Lewat **phpMyAdmin** / **HeidiSQL**: Buat database baru bernama `todolist`.
+   - Atau lewat baris perintah MySQL:
+     ```sql
+     CREATE DATABASE todolist;
+     ```
+3. Jalankan migrasi tabel dan data awal (seeder) ke dalam database:
+   ```bash
+   php artisan migrate --seed
+   ```
+   *(Perintah ini akan membuat seluruh struktur tabel dan menyiapkan data awal pengguna).*
 
-Buka aplikasi di browser melalui: **`http://127.0.0.1:8000`** atau **`http://todolist.test`** (Laragon).
+---
+
+### Langkah 6: Jalankan Server Aplikasi
+Pilih salah satu metode untuk mengakses aplikasi:
+
+- **Opsi A (Menggunakan Web Server Internal Laravel)**:
+  Jalankan perintah:
+  ```bash
+  php artisan serve
+  ```
+  Kemudian buka peramban (*browser*) dan akses tautan:
+  👉 **`http://127.0.0.1:8000`**
+
+- **Opsi B (Menggunakan Laragon)**:
+  Jika menggunakan Laragon dengan fitur Virtual Host aktif:
+  Cukup klik **Start All** pada Laragon, lalu akses:
+  👉 **`http://todolist.test`**
+
+---
+
+### Langkah 7: Masuk ke Akun Aplikasi
+Setelah halaman web terbuka, klik menu **Masuk** di pojok kanan atas:
+- **Admin**: Username `admin` | Kata Sandi `password123`
+- **Pengguna**: Username `sukri` | Kata Sandi `password123` *(atau klik **Daftar** untuk membuat akun baru)*
 
 ---
 
