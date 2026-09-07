@@ -133,6 +133,51 @@ Setelah halaman web terbuka, klik menu **Masuk** di pojok kanan atas:
 
 ---
 
+## 📖 Alur Penggunaan Aplikasi
+
+Berikut adalah alur panduan pengoperasian aplikasi baik untuk **Pengguna Biasa** maupun **Administrator**:
+
+### 1. 👤 Alur Pengguna Biasa (Manajemen Tugas Pribadi)
+
+1. **Pendaftaran Akun Baru**:
+   - Buka halaman utama dan klik tombol **Daftar** di pojok kanan atas.
+   - Masukkan **Nama Lengkap**, **Alamat Email**, dan **Kata Sandi**.
+   - Sistem akan otomatis membuat akun dan mengarahkan langsung ke halaman masuk.
+2. **Masuk ke Sistem**:
+   - Masukkan **Username** dan **Kata Sandi** pada halaman `/masuk`.
+3. **Mengelola Tugas Pribadi (`/tugas`)**:
+   - **Menambah Tugas**: Isi judul tugas, deskripsi (opsional), tentukan tenggat waktu, dan pilih prioritas (🔵 Rendah, 🟡 Sedang, atau 🔴 Tinggi), lalu klik **Tambah Tugas**.
+   - **Menandai Selesai**: Centang kotak status pada tugas yang telah diselesaikan. Bilah persentase kemajuan (*progress bar*) di bagian atas akan bertambah secara otomatis.
+   - **Penyaringan & Pencarian**:
+     - Gunakan kolom cari untuk menemukan tugas berdasarkan kata kunci judul.
+     - Pilih filter status (**Semua**, **Belum Selesai**, atau **Selesai**).
+     - Atur urutan deadline (**Waktu Terdekat** atau **Waktu Terjauh**).
+   - **Edit & Hapus**: Klik tombol ikon pensil untuk mengubah tugas atau ikon tempat sampah untuk menghapusnya.
+   - **Navigasi Halaman**: Jika tugas lebih dari 10, gunakan tombol paginasi di bawah untuk berpindah halaman.
+4. **Keluar Akun**:
+   - Klik tombol **Keluar** di navbar atas kapan saja untuk mengakhiri sesi.
+
+---
+
+### 2. 🛡️ Alur Administrator (Pemantauan Sistem)
+
+1. **Masuk Sebagai Admin**:
+   - Tidak perlu registrasi manual. Masuk melalui halaman `/masuk` menggunakan:
+     - **Username**: `admin`
+     - **Kata Sandi**: `password123`
+2. **Navigasi ke Panel Admin**:
+   - Di navbar atas admin akan muncul menu khusus **Data Pengguna**.
+   - Klik menu tersebut untuk menuju ke halaman Panel Admin (`/admin/pengguna`).
+3. **Memantau Pengguna Terdaftar (*Read-Only*)**:
+   - **Statistik Sistem**: Admin dapat melihat ringkasan total pengguna terdaftar, total tugas dalam sistem, dan tingkat penyelesaian tugas.
+   - **Daftar Pengguna**: Melihat data seluruh pengguna terdaftar mencakup nama, username, email, tanggal bergabung, serta jumlah tugas yang dimiliki masing-masing pengguna.
+   - **Pencarian Data**: Gunakan kolom pencarian untuk menyaring pengguna berdasarkan nama, username, atau email.
+   - *Catatan Keamanan*: Panel admin bersifat murni **Read-Only** (hanya pemantauan), tidak terdapat tombol ubah/hapus data pengguna guna menjaga integritas data.
+4. **Mengelola Tugas Pribadi Admin**:
+   - Admin juga dapat mengklik menu **Tugas Saya** untuk membuat dan mengelola daftar tugas pribadinya sendiri secara terpisah.
+
+---
+
 ## 🧪 Pengujian Otomatis
 
 Aplikasi telah dilengkapi pengujian otomatis lengkap menggunakan PHPUnit. Jalankan:
